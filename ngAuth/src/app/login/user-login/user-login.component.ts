@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CONSTANTS } from '../constant/constants';
+import { Role } from '../models/role.model';
+import { RolesService } from '../services/roles.service';
 
 @Component({
   selector: 'app-user-login',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserLoginComponent implements OnInit {
 
-  constructor() { }
+  roles: Role[]
+
+  constructor(private userRole: RolesService) { }
 
   ngOnInit() {
+    this.userRole.getAllRoles().subscribe(res => {
+      this.roles = res['Data'];
+      localStorage.setItem(CONSTANTS.ROLES, JSON.stringify(this.roles));
+    })
   }
 
 }
